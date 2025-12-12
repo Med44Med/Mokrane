@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nassime</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/supabase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="w-full min-h-dvh flex flex-col scroll-smooth">
+    <header
+      class="z-50 fixed top-0 left-0 h-16 w-full backdrop-blur-sm bg-black/50 px-10 flex flex-row-reverse justify-between items-center"
+    >
+      <a href="/" class="text-green-500 text-2xl font-bold"> المصرح </a>
+      <nav class="hidden flex-row-reverse items-center gap-10 md:flex">
+        <a
+          href="#about"
+          class="text-white/80 text-base hover:text-green-400 transition"
+          >من نحن</a
+        >
+        <a
+          href="#somthing"
+          class="text-white/80 text-base hover:text-green-400 transition"
+          >المراجعات</a
+        >
+        <a
+          href="#faq"
+          class="text-white/80 text-base hover:text-green-400 transition"
+          >الأسئلة الشائعة</a
+        >
+        <a
+          id="headerLogin"
+          href="/login"
+          class="bg-green-500 px-5 py-2 rounded text-white text-base font-bold transition hover:bg-green-600"
+          >تسجيل الدخول</a
+        >
+      </nav>
+      <div
+        onclick="showHeaderSideBar()"
+        class="text-white text-5xl md:hidden cursor-pointer flex justify-center items-center"
+      >
+        <span class="material-symbols-outlined text-xl"> menu </span>
+      </div>
+      <div
+        id="headerSideBar"
+        class="fixed top-0 left-0 h-dvh w-full -translate-x-full transition ease-out duration-500 [&.active]:translate-x-0"
+      >
+        <div
+          id="shadow"
+          onclick="hideHeaderSideBar()"
+          class="absolute inset-0 cursor-pointer backdrop-blur-sm bg-transparent delay-500 transition [&.active]:bg-black/70"
+        ></div>
+        <div
+          class="z-10 bg-gray-950 absolute top-0 left-0 h-full w-2/3 flex flex-col justify-start items-center gap-10 p-10"
+        >
+          <a href="/" onclick="hideHeaderSideBar()" class="text-white">الصفحة الرئيسية</a>
+          <a href="/" onclick="hideHeaderSideBar()" class="text-white">المراجعات</a>
+          <a href="/" onclick="hideHeaderSideBar()" class="text-white">الأسئلة الشائعة</a>
+          <a
+        id="headerSideBarLogin"
+          href="/login"
+          class="w-full text-center bg-green-500 mt-auto  py-2 rounded text-white text-base font-bold transition hover:bg-green-600"
+          >تسجيل الدخول</a
+        >
+        </div>
+      </div>
+    </header>
+    <section
+      class=" relative pt-20 px-4 bg-gradient-to-bl from-black to-black/90 w-full h-screen flex flex-col md:flex-row-reverse"
+    >
+      <div
+        class="z-10 flex-1 h-full w-full px-10 flex flex-col justify-center items-end gap-1"
+      >
+        <h1 id="text" class="text-white text-xl font-bold">
+          منصة <span class="text-green-500">التحول الرقمي</span>
+        </h1>
+        <h4 class="text-white mb-3 text-sm">
+          تقديم البروفيسور
+          <a href="#about" class="text-green-500 hover:underline">مقرن نسيم</a>
+        </h4>
+        <p class="text-white/70 text-end text-sm">
+          ريم إيبسوم(Lorem Ipsum) هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل
+          وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر. كان لوريم إيبسوم
+          ولايزال المعيار للنص الشكلي منذ القرن الخامس عشر عندما قامت مطبعة
+          مجهولة برص مجموعة من الأحرف بشكل عشوائي أخذتها من نص، لتكوّن كتيّب
+          بمثابة دليل أو مرجع شكلي لهذه الأحرف.
+        </p>
+        <a
+          id="heroLoginBtn"
+          href="/login/index.html"
+          class="mt-5 bg-green-500 px-5 py-2 rounded text-white text-base font-bold transition hover:bg-green-600 z-0"
+          >تسجيل الدخول</a
+        >
+      </div>
+      <div class="absolute bottom-0 left-0 w-full h-full flex-1 flex justify-center items-end z-0">
+        <img
+          src="/assets/hero.png"
+          alt="Mokrane"
+          class="w-4/5 aspect-square object-cover opacity-20 md:opacity-100"
+        />
+        <div
+          class="absolute bg-gradient-to-t from-black/70 to-transparent bottom-0 left-0 w-full h-36"
+        ></div>
+      </div>
+    </section>
+    <section
+      id="about"
+      class="px-10 md:px-36 bg-gradient-to-br from-black/90 to-black w-full h-screen flex flex-col justify-center items-center gap-1"
+    >
+      <h1 class="text-white text-2xl md:text-4xl font-bold mb-3">ما فائدته ؟</h1>
+      <p class="text-white/80 text-end text-base">
+        هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي
+        القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات في الصفحة
+        التي يقرأها. ولذلك يتم استخدام طريقة لوريم إيبسوم لأنها تعطي توزيعاَ
+        طبيعياَ -إلى حد ما- للأحرف عوضاً عن استخدام "هنا يوجد محتوى نصي، هنا
+        يوجد محتوى نصي" فتجعلها تبدو (أي الأحرف) وكأنها نص مقروء. العديد من
+        برامح النشر المكتبي وبرامح تحرير صفحات الويب تستخدم لوريم إيبسوم بشكل
+        إفتراضي كنموذج عن النص، وإذا قمت بإدخال "lorem ipsum" في أي محرك بحث
+        ستظهر العديد من المواقع الحديثة العهد في نتائج البحث. على مدى السنين
+        ظهرت نسخ جديدة ومختلفة من نص لوريم إيبسوم، أحياناً عن طريق الصدفة،
+        وأحياناً عن عمد كإدخال بعض العبارات الفكاهية إليها.
+      </p>
+    </section>
+    <section
+      id="about"
+      class="px-4 bg-gradient-to-bl from-black to-black/90 w-full h-screen flex flex-col justify-center items-center gap-1"
+    >
+      <h1 class="text-white text-4xl font-bold mb-3">ماذا قالو عنا</h1>
+      <div class="relative h-2/3 w-full overflow-hidden">
+        <div
+          id="slider"
+          class="absolute top-0 left-0 h-full w-[500%] transition-transform ease-out duration-500 overflow-x-hidden flex justify-start items-center"
+        >
+          <div
+            class="flex-1 h-full flex flex-col justify-start items-center gap-1"
+          >
+            <h1 class="text-5xl text-white my-auto">1</h1>
+          </div>
+          <div
+            class="flex-1 h-full flex flex-col justify-start items-center gap-1"
+          >
+            <h1 class="text-5xl text-white my-auto">2</h1>
+          </div>
+          <div
+            class="flex-1 h-full flex flex-col justify-start items-center gap-1"
+          >
+            <h1 class="text-5xl text-white my-auto">3</h1>
+          </div>
+          <div
+            class="flex-1 h-full flex flex-col justify-start items-center gap-1"
+          >
+            <h1 class="text-5xl text-white my-auto">4</h1>
+          </div>
+          <div
+            class="flex-1 h-full flex flex-col justify-start items-center gap-1"
+          >
+            <h1 class="text-5xl text-white my-auto">5</h1>
+          </div>
+        </div>
+        <button
+          id="perv"
+          onclick="pervPage()"
+          class="absolute top-1/2 -translate-y-1/2 left-4 bg-green-500 hover:bg-green-600 transition cursor-pointer z-10 size-10 rounded-full flex justify-center items-center disabled:bg-green-500/10"
+          disabled
+        >
+          <span class="material-symbols-outlined text-white">
+            keyboard_arrow_left
+          </span>
+        </button>
+        <button
+          id="next"
+          onclick="nextPage()"
+          class="absolute top-1/2 -translate-y-1/2 right-4 bg-green-500 hover:bg-green-600 transition cursor-pointer z-10 size-10 rounded-full flex justify-center items-center disabled:bg-green-500/10"
+        >
+          <span class="material-symbols-outlined text-white">
+            keyboard_arrow_right
+          </span>
+        </button>
+      </div>
+    </section>
+    <footer class="bg-gradient-to-br from-black/90 to-black flex flex-col">
+      <div class="w-full py-5 px-10 hidden md:block">
+        <div
+          onclick="scrollToTop()"
+          class="bg-white/10 size-12 rounded-full flex justify-center items-center cursor-pointer hover:bg-white/30 transition"
+        >
+          <span class="material-symbols-outlined text-white scale-125">
+            arrow_upward
+          </span>
+        </div>
+      </div>
+      <div class="px-10 flex-1 flex flex-col md:flex-row-reverse gap-10 md:gap-0">
+        <div class="flex-1 flex flex-col justify-start items-end">
+          <h1 class="text-white font-bold text-2xl mb-5">الصفحات</h1>
+          <nav class="flex flex-col items-end gap-3">
+            <a
+              href=""
+              class="text-white/70 font-semibold text-base hover:underline hover:text-white transition"
+              >الرئيسية</a
+            >
+            <a
+              href=""
+              class="text-white/70 font-semibold text-base hover:underline hover:text-white transition"
+              >من نحن</a
+            >
+            <a
+              href=""
+              class="text-white/70 font-semibold text-base hover:underline hover:text-white transition"
+              >ماذا قالو عنا</a
+            >
+            <a
+              href=""
+              class="text-white/70 font-semibold text-base hover:underline hover:text-white transition"
+              >الأسئلة الشائعة</a
+            >
+          </nav>
+        </div>
+        <div class="flex-1 flex flex-col justify-start items-end">
+          <h1 class="text-white font-bold text-2xl mb-5">الصفحات</h1>
+          <nav class="flex flex-col items-end gap-3">
+            <a
+              href=""
+              class="text-white/70 font-semibold text-base hover:underline hover:text-white transition"
+              >الرئيسية</a
+            >
+            <a
+              href=""
+              class="text-white/70 font-semibold text-base hover:underline hover:text-white transition"
+              >من نحن</a
+            >
+            <a
+              href=""
+              class="text-white/70 font-semibold text-base hover:underline hover:text-white transition"
+              >ماذا قالو عنا</a
+            >
+            <a
+              href=""
+              class="text-white/70 font-semibold text-base hover:underline hover:text-white transition"
+              >الأسئلة الشائعة</a
+            >
+          </nav>
+        </div>
+        <div class="flex-1 flex flex-col justify-start items-end">
+          <h1 class="text-white font-bold text-2xl mb-5">تواصل معنا</h1>
+          <nav class="flex flex-col items-end gap-5">
+            <div class="flex flex-row-reverse gap-10 items-center">
+              <a href="https://facebook.com">
+                <i
+                  class="fa-brands fa-facebook text-white/70 text-4xl hover:text-blue-500 transition"
+                ></i>
+              </a>
+              <a href="https://instagram.com">
+                <i
+                  class="fa-brands fa-instagram text-white/70 text-4xl hover:text-pink-700 transition"
+                ></i>
+              </a>
+              <a href="https://tiktok.com">
+                <i
+                  class="fa-brands fa-tiktok text-white/70 text-4xl hover:text-white transition"
+                ></i>
+              </a>
+              <a href="https://youtube.com">
+                <i
+                  class="fa-brands fa-youtube text-white/70 text-4xl hover:text-red-500 transition"
+                ></i>
+              </a>
+            </div>
+            <a
+              href="mailto:mstgci4@gmail.com"
+              class="text-white/70 font-semibold text-base hover:underline hover:text-white transition"
+              >mstgci4@gmail.com</a
+            >
+            <a
+              href="tel:+213771110749"
+              class="text-white/70 font-semibold text-base hover:underline hover:text-white transition"
+              >0 771 110 749</a
+            >
+          </nav>
+        </div>
+      </div>
+      <div class="flex flex-col justify-center items-center p-1">
+        <h1 class="text-white">mokrane.xyz - 2025</h1>
+        <h1 class="text-white">
+          Powered By <a href="https://www.molutions.com">Molutions</a>
+        </h1>
+      </div>
+    </footer>
+    <script async src="/app.js"></script>
+    <script>
+      //header
+
+      const headerSideBar = document.querySelector("#headerSideBar");
+      const shadow = document.querySelector("#shadow");
+
+      const showHeaderSideBar = () => {
+        headerSideBar.classList.add("active");
+        shadow.classList.add("active");
+      };
+      const hideHeaderSideBar = () => {
+        headerSideBar.classList.remove("active");
+        shadow.classList.remove("active");
+      };
+
+      //slider
+
+      const slider = document.querySelector("#slider");
+      const perv = document.querySelector("#perv");
+      const next = document.querySelector("#next");
+      const part = slider.children.length;
+      let x = 0;
+
+      const nextPage = () => {
+        if (x === part - 1) {
+          return;
+        }
+        perv.disabled = false;
+        slider.style.transform = `translateX(${-((x + 1) / part) * 100}%)`;
+        x += 1;
+        if (x === part - 1) {
+          next.disabled = true;
+        } else {
+          next.disabled = false;
+        }
+      };
+      const pervPage = () => {
+        if (x === 0) {
+          return;
+        }
+        slider.style.transform = `translateX(${(1 / part - x / part) * 100}%)`;
+        x -= 1;
+        if (x === 0) {
+          perv.disabled = true;
+        } else {
+          perv.disabled = false;
+        }
+      };
+
+      //footer
+
+      const scrollToTop = () => {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "smooth",
+        });
+      };
+    </script>
+  </body>
+</html>
