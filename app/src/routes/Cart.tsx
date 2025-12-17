@@ -1,29 +1,21 @@
 import { useContext, useState, useEffect } from "react";
 import { CartContext, AuthContext } from "../contexts/contexts.ts";
 
-import { FaShoppingCart } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import type { CartContextType, AuthContextType } from "../contexts/contexts";
 import type { OrderType, BrochureType } from "../types.ts";
-
-const generateOrderNo = (): string => {
-  const timestamp = Date.now().toString();
-  const randomNum = Math.floor(Math.random() * 1000)
-    .toString()
-    .padStart(3, "0");
-  return `${timestamp}${randomNum}`;
-};
+import { Price } from "../utilis/Price";
+import Button from "../Components/UI/Button";
+import Header from "../Components/UI/Header";
+import generateOrderNo from "../utilis/generateNo";
+import supabase from "../utilis/supabase";
 
 const Cart = () => {
-  const { cart, handleCartItem } = useContext<CartContextType | null>(
-    CartContext
-  );
-  // const { user } = useContext<AuthContextType | null>(AuthContext);
-
-  // const { id } = user;
-  const id='4'
-  console.log(cart);
+  const navigate = useNavigate();
+  const { cart, handleCartItem, clearCart } =
+    useContext<CartContextType | null>(CartContext);
+  const { user } = useContext<AuthContextType | null>(AuthContext);
 
   const [order, setOrder] = useState<OrderType>({
     orderNo: null,
@@ -33,19 +25,25 @@ const Cart = () => {
     total: 0,
   });
 
+  console.log(order);
+
   useEffect(() => {
     (() => {
+      if (!user?.id | !cart) {
+        return;
+      }
+
       setOrder({
-        orderNo: generateOrderNo(),
-        user: id,
-        items: cart,
+        orderNo: generateOrderNo(user.id),
+        user: user.id,
+        items: cart.map((e) => e.id),
         coupon: null,
         total: cart.reduce((acc: number, item: BrochureType) => {
           return acc + item.price;
         }, 0),
       });
     })();
-  }, [cart, id]);
+  }, [cart, user]);
 
   //coupon states
   const [coupon, setCoupon] = useState("");
@@ -57,7 +55,7 @@ const Cart = () => {
   const [couponError, setCouponError] = useState<string | null>(null);
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string>("");
 
   const handleCouponApply = async () => {
     setCouponLoading(true);
@@ -76,19 +74,25 @@ const Cart = () => {
   };
 
   const handleSubmitOrder = async () => {
+    if (cart.length === 0) {
+      alert("سلة التسوق الخاصة بك فارغة");
+      return;
+    }
     setLoading(true);
-    setError(null);
+    setError("");
     // Simulate order submission
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setLoading(false);
+    const { error } = await supabase.from("orders").insert([order]);
+    if (error) {
+      setError(error.message);
+      return;
+    }
+    clearCart();
+    navigate("/store");
   };
 
   return (
     <>
-      <div className="flex justify-start items-center gap-2 mb-6 cursor-default">
-        <FaShoppingCart className="text-3xl" />
-        <h1 className="text-3xl font-semibold ">دروس مختارة</h1>
-      </div>
+      <Header title="دروس مختارة" />
       <div className="flex-1 w-full flex justify-between items-center gap-3">
         <div className="bg-black/50 h-full flex-3 rounded-2xl p-3 flex flex-col">
           {cart.length === 0 ? (
@@ -112,7 +116,9 @@ const Cart = () => {
                     {item.description}
                   </p>
                 </div>
-                <div className="px-10 text-xl ">{item.price}</div>
+                <div className="px-10 text-xl text-text">
+                  {Price(item.price)}
+                </div>
                 <div className="text-lg font-semibold text-green-500">
                   <RiDeleteBin6Line
                     onClick={() => {
@@ -127,14 +133,14 @@ const Cart = () => {
         </div>
         <div className="bg-black/50 h-full flex-1 rounded-2xl p-10 flex flex-col">
           <div className="py-3 flex justify-start items-center gap-3">
-            <h1 className="text-xl font-semibold">المجموع :</h1>
-            <h1 className="text-xl font-semibold text-center ">
-              {order.total}
+            <h1 className="text-xl font-semibold text-text">المجموع :</h1>
+            <h1 className="text-xl font-semibold text-text text-center ">
+              {Price(order.total)}
             </h1>
           </div>
           <div className="mt-auto border-y border-white/10 my-1 py-5">
             <div className="flex gap-3 items-center">
-              <h1 className="text-base text-white/70 py-2 text-nowrap">
+              <h1 className="text-base text-text-secondary py-2 text-nowrap">
                 رمز قسيمة :
               </h1>
               <input
@@ -161,18 +167,19 @@ const Cart = () => {
               <h1 className="text-sm text-red-500 mt-2">{couponError}</h1>
             )}
           </div>
-          <h1 className="text-2xl font-semibold">المجموع النهائي :</h1>
-          <h1 className="text-3xl font-semibold text-green-500 text-center py-3">
-            {couponResponse
-              ? order.total - (order.total * couponResponse.discount) / 100
-              : order.total}
+          <h1 className="text-2xl font-semibold text-text">
+            المجموع النهائي :
           </h1>
-          <button
-            onClick={handleSubmitOrder}
-            className="mt-3 bg-green-500 w-full py-3 rounded"
-          >
-            {loading ? "جاري الإتمام..." : "إتمام الشراء"}
-          </button>
+          <h1 className="text-3xl font-semibold text-green-500 text-center py-3">
+            {Price(
+              couponResponse
+                ? order.total - (order.total * couponResponse.discount) / 100
+                : order.total
+            )}
+          </h1>
+          <Button onClick={handleSubmitOrder} className="mt-3 w-full">
+            <h1>{loading ? "جاري الإتمام..." : "إتمام الشراء"}</h1>
+          </Button>
           {error && <h1 className="text-sm text-red-500 mt-2">{error}</h1>}
         </div>
       </div>

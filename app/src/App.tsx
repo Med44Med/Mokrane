@@ -16,6 +16,8 @@ import "./App.css";
 import CartProvider from "./contexts/CartContext";
 import AuthProvider from "./contexts/AuthContext";
 import Brochure from "./routes/Brochure";
+import Lesson from './routes/Lesson';
+import Orders from './routes/Orders';
 
 function App() {
   const router = createBrowserRouter([
@@ -41,14 +43,17 @@ function App() {
           path: "lessons",
           Component: Lessons,
         },
+        {
+          path: "lessons/:title",
+          loader: async ({ params }) => {
+            return { title: params.title};
+          },
+          Component: Lesson,
+        },
         // {
         //   path: "messages",
         //   Component: Messages,
         // },
-        {
-          path: "store",
-          Component: Store,
-        },
         {
           path: "store",
           Component: Store,
@@ -60,6 +65,10 @@ function App() {
         {
           path: "store/cart",
           Component: Cart,
+        },
+        {
+          path: "orders",
+          Component: Orders,
         },
         {
           path: "settings",

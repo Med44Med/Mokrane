@@ -31,6 +31,8 @@ html[theme=light] {
   box-sizing: border-box;
   font-family: "Cairo", sans-serif;
   transition: all .3s ease-in-out;
+   scrollbar-width: thin;
+  scrollbar-color: oklch(72.3% 0.219 149.579) transparent;
 }
 
 

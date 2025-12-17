@@ -12,6 +12,11 @@ import { ImSpinner8 } from "react-icons/im";
 import { Link } from "react-router";
 import { CartContext } from "../contexts/contexts.ts";
 import type { CartContextType } from "../contexts/contexts";
+import Header from "../Components/UI/Header";
+import { Price } from "../utilis/Price";
+import Button from "../Components/UI/Button";
+import StoreCard from "../Components/UI/StoreCard";
+import Input from "../Components/UI/Input";
 
 const Store = () => {
   // const lessonsPerPage = 20;
@@ -33,8 +38,9 @@ const Store = () => {
     (async () => {
       setLoading(true);
 
-      const { data: brochures, error } = await supabase.from("brochures").select("*");
-      console.log(brochures, error);
+      const { data: brochures, error } = await supabase
+        .from("brochures")
+        .select("*");
 
       if (error) {
         console.log(error);
@@ -49,12 +55,10 @@ const Store = () => {
 
   return (
     <>
-      <div className="flex justify-start items-center gap-2 mb-6 cursor-default">
-        <FaStore className="text-3xl" />
-        <h1 className="text-3xl font-semibold ">المتجر</h1>
-      </div>
+      <Header title="المتجر" />
       <div className="w-full mb-3 flex justify-between items-center">
-        <input
+        <Input
+          autoFocus
           type="text"
           placeholder="بحث..."
           value={search}
@@ -107,9 +111,9 @@ const Store = () => {
           <h1 className="text-3xl font-semibold">لا يوجد دروس</h1>
         </div>
       ) : (
-        <div className="w-full h-fit py-5 rounded-2xl grid grid-cols-1 gap-y-14 md:grid-cols-3">
+        <div className="relative flex-1 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3  gap-10 gap-y-10 md:gap-y-10 md:p-0">
           {lessons.map((l) => (
-            <Lesson
+            <StoreCard
               key={l.id}
               l={l}
               handleCartItem={handleCartItem}
@@ -135,47 +139,3 @@ const Store = () => {
 };
 
 export default Store;
-
-const Lesson = ({
-  l,
-  handleCartItem,
-  cart,
-}: {
-  l: BrochureType;
-  handleCartItem: (item: BrochureType) => void;
-  cart: BrochureType[];
-}) => {
-  const isSelected = cart.find((i: BrochureType) => i.id === l.id);
-  return (
-    <div
-      className={`bg-black/20 p-3 flex flex-col rounded-lg shadow border-4 ${
-        isSelected ? "border-green-500/60" : "border-transparent"
-      }`}
-    >
-      <img
-        src={l.thumbnail}
-        alt={l.title}
-        className="w-full h-auto object-center object-cover rounded mb-3"
-      />
-      <h1 className="text-xl text-white font-semibold line-clamp-1 mb-1">
-        {l.title}
-      </h1>
-      <p className="text-sm text-white/60 line-clamp-3 mb-1">{l.description}</p>
-      <Link
-        to={`/store/${l.title}`}
-        className="self-end text-sm text-green-500 mb-10"
-      >
-        اقرأ المزيد
-      </Link>
-      <div className="z-10 flex justify-between items-end">
-        <h1 className="text-xl text-green-500 font-semibold">{l.price}</h1>
-        <button
-          onClick={() => handleCartItem(l)}
-          className="min-w-40 bg-green-500 px-5 py-1 rounded transition cursor-pointer hover:bg-green-600"
-        >
-          {isSelected ? "إزالة من السلة" : "إضافة إلى السلة"}
-        </button>
-      </div>
-    </div>
-  );
-};

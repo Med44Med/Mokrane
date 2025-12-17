@@ -8,31 +8,47 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     (async () => {
-      const { error: noAuth } = await supabase.auth.getUser();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
 
-      if (!noAuth) {
+
+      if (session) {
+        const { data, error } = await supabase
+          .from("profiles")
+          .select()
+          .eq("id", session.user.id)
+          .single();
+        if (error) {
+          console.log(error);
+          return;
+        }
+        setUser(data);
         return;
-      }
-
-      const { data: {user}, error: loginErr } =
-        await supabase.auth.signInWithPassword({
-          email: "mstgci4@gmail.com",
-          password: "alpha44",
+      } else {
+        const {
+          data: { user },
+          error: loginErr,
+        } = await supabase.auth.signInWithPassword({
+          email: "dark44devil@hotmail.fr",
+          password: "mokrane44",
         });
-      if (loginErr) {
-        console.log("Login error:", loginErr.message);
-        return;
+
+        if (loginErr) {
+          console.log("Login error:", loginErr.message);
+          return;
+        }
+        const { data, error } = await supabase
+          .from("profiles")
+          .select()
+          .eq("id", user.id)
+          .single();
+        if (error) {
+          console.log(error);
+          return;
+        }
+        setUser(data);
       }
-      const { data, error } = await supabase
-        .from("profiles")
-        .select()
-        .eq("id", user.id)
-        .single();
-      if (error) {
-        console.log(error);
-        return;
-      }
-      setUser(data);
     })();
   }, []);
 

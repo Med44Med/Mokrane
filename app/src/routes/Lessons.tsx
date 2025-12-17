@@ -1,72 +1,92 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router";
-import { FcOpenedFolder } from "react-icons/fc";
 import { FaSpinner } from "react-icons/fa";
+import Header from "../Components/UI/Header";
+import supabase from "../utilis/supabase";
+import { AuthContext } from "../contexts/contexts";
+import Input from "../Components/UI/Input";
 
 type LessonProps = {
-  id: number;
   title: string;
+  description: string;
+  thumbnail: string;
 };
 
 const Lesson = ({ lesson }: { lesson: LessonProps }) => (
   <Link
-    to={`${lesson.id}`}
-    className="w-56 flex flex-col items-center justify-start gap-2 p-4  rounded-lg hover:bg-green-400/20 transition"
+    to={`${lesson.title}`}
+    className="group w-full h-96 bg-surface hover:bg-primary/10 shadow p-5 rounded-2xl flex flex-col justify-start items-start gap-1"
   >
-    <FcOpenedFolder className="text-green-400 text-8xl" />
-    <h1 className="w-2/3 text-white text-wrap text-center">{lesson.title}</h1>
+    <div className="w-full overflow-hidden rounded-xl">
+      <img
+        src={lesson.thumbnail}
+        alt="lesson.title"
+        className="w-full aspect-video rounded-xl group-hover:scale-105 duration-1000! transition"
+      />
+    </div>
+    <h1 className="text-text text-xl font-bold line-clamp-2 mt-3">
+      {lesson.title}
+    </h1>
+    <p className="text-text-secondary text-base font-normal line-clamp-4">
+      {lesson.description}
+    </p>
   </Link>
 );
 
 const Lessons = () => {
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<LessonProps[]>([]);
+  const [lessons, setLessons] = useState<LessonProps[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
+
+  const [search, setSearch] = useState("");
+
+  const { user } = useContext(AuthContext);
+  console.log(lessons);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-      setData([
-        { id: 1, title: "Introduction to React" },
-        { id: 2, title: "Advanced JavaScript Concepts" },
-        { id: 3, title: "State Management with Redux" },
-        { id: 4, title: "Building RESTful APIs with Node.js" },
-        { id: 5, title: "Introduction to TypeScript" },
-        { id: 6, title: "Frontend Development with Vue.js" },
-        { id: 7, title: "Introduction to React" },
-        { id: 8, title: "Advanced JavaScript Concepts" },
-        { id: 9, title: "State Management with Redux" },
-        { id: 10, title: "Building RESTful APIs with Node.js" },
-        { id: 11, title: "Introduction to TypeScript" },
-        { id: 12, title: "Frontend Development with Vue.js" },
-        { id: 17, title: "Introduction to React" },
-        { id: 18, title: "Advanced JavaScript Concepts" },
-        { id: 19, title: "State Management with Redux" },
-        { id: 13, title: "Building RESTful APIs with Node.js" },
-        { id: 14, title: "Introduction to TypeScript" },
-        { id: 15, title: "Frontend Development with Vue.js" },
-      ]);
-    }, 3000);
+    if (!user) {
+      return;
+    }
+    (async () => {
+      const { data, error } = await supabase
+        .from("lessons")
+        .select("title,description,thumbnail")
+        .eq("isLive", true);
 
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
+      if (error) {
+        setError(error.message);
+        setLoading(false);
+        return;
+      }
+      setLessons(data);
+      setLoading(false);
+    })();
+  }, [user]);
 
   return (
     <>
-      <h1 className="text-2xl font-semibold mb-6">الدروس</h1>
+      <Header title="الدروس" />
       {loading ? (
         <div className="w-full h-full flex flex-col items-center justify-center gap-4">
           <FaSpinner className="animate-spin text-green-400 text-4xl" />
-          <p>Loading lessons, please wait...</p>
+          <p className="text-text">جارٍ تحميل الدروس، يرجى الانتظار...</p>
         </div>
-      ) : data.length === 0 ? (
+      ) : error ? (
+        <h1>{error}</h1>
+      ) : lessons.length === 0 ? (
         <div className="relative flex-1 grid grid-cols-5 grid-rows-3 gap-x-3 gap-y-1 flex-wrap"></div>
       ) : (
-        <div className="relative flex-1 grid grid-cols-5 grid-rows-3 gap-x-3 gap-y-1 flex-wrap">
-          {data.map((lesson) => (
-            <Lesson lesson={lesson} key={lesson.id} />
-          ))}
+        <div className="relative flex-1 flex flex-col gap-5 mt-5">
+          <div>
+            <Input className="w-full md:w-1/3" placeholder="بحث..." autoFocus value={search} onChange={e=>setSearch(e.target.value)} />
+          </div>
+          <div className="relative flex-1 grid grid-cols-1 md:grid-cols-3 gap-10 gap-y-10 md:gap-y-10   md:p-0">
+            {lessons
+              .filter((l) => l.title.includes(search))
+              .map((lesson) => (
+                <Lesson lesson={lesson} key={lesson.title} />
+              ))}
+          </div>
         </div>
       )}
     </>

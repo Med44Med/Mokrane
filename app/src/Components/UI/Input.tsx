@@ -8,6 +8,7 @@ const Input = ({
   type = "text",
   className,
   autoFocus,
+  placeholder
 }) => {
   return (
     <input
@@ -17,9 +18,10 @@ const Input = ({
       onChange={onChange}
       autoFocus={autoFocus}
       className={clsx(
-        "px-3 py-1 text-sm outline-none border border-solid border-white/50 rounded focus:border-green-500/50",
+        "px-3 py-2 bg-background text-sm text-text outline-none border border-solid border-white/50 rounded focus:border-green-500/50",
         className
       )}
+      placeholder={placeholder}
     />
   );
 };
