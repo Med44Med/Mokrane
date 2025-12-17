@@ -9,10 +9,10 @@ function cookieStorage() {
     setItem: (key, value) => {
       document.cookie = `${key}=${encodeURIComponent(
         value
-      )}; Path=/; Domain= 127.0.0.1; SameSite=Lax; Secure=false;`;
+      )}; Path=/; Domain=.modev.local; SameSite=Lax;`;
     },
     removeItem: (key) => {
-      document.cookie = `${key}=; Path=/; Domain= 127.0.0.1; Max-Age=0;`;
+      document.cookie = `${key}=; Path=/; Domain=.modev.local; Max-Age=0;`;
     },
   };
 }

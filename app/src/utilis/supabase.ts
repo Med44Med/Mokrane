@@ -9,7 +9,9 @@ function cookieStorage() {
       return match ? decodeURIComponent(match[2]) : null;
     },
     setItem: (key: string, value: string): void => {
-      document.cookie = `${key}=${encodeURIComponent(value)}; Path=/; Domain=.modev.local; SameSite=Lax;`;
+      document.cookie = `${key}=${encodeURIComponent(
+        value
+      )}; Path=/; Domain=.modev.local; SameSite=Lax;`;
     },
     removeItem: (key: string): void => {
       document.cookie = `${key}=; Path=/; Domain=.modev.local; Max-Age=0;`;

@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nassime</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/supabase.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="./supabase.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -25,12 +25,22 @@
       referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" href="style.css" />
+    <style type="text/tailwindcss">
+      @theme {
+        --color-background: var(--background);
+        --color-surface: var(--surface);
+        --color-primary: var(--primary);
+        --color-primary-hover: var(--primary-hover);
+        --color-text: var(--text);
+        --color-text-secondary: var(--text-secondary);
+      }
+    </style>
   </head>
-  <body class="w-full min-h-dvh flex flex-col scroll-smooth">
+  <body class="w-full min-h-dvh flex flex-col scroll-smooth bg-background">
     <header
       class="z-50 fixed top-0 left-0 h-16 w-full backdrop-blur-sm bg-black/50 px-10 flex flex-row-reverse justify-between items-center"
     >
-      <a href="/" class="text-green-500 text-2xl font-bold"> المصرح </a>
+      <a href="/" class="text-primary text-2xl font-bold"> المصرح </a>
       <nav class="hidden flex-row-reverse items-center gap-10 md:flex">
         <a
           href="#about"
@@ -72,20 +82,26 @@
         <div
           class="z-10 bg-gray-950 absolute top-0 left-0 h-full w-2/3 flex flex-col justify-start items-center gap-10 p-10"
         >
-          <a href="/" onclick="hideHeaderSideBar()" class="text-white">الصفحة الرئيسية</a>
-          <a href="/" onclick="hideHeaderSideBar()" class="text-white">المراجعات</a>
-          <a href="/" onclick="hideHeaderSideBar()" class="text-white">الأسئلة الشائعة</a>
+          <a href="/" onclick="hideHeaderSideBar()" class="text-white"
+            >الصفحة الرئيسية</a
+          >
+          <a href="/" onclick="hideHeaderSideBar()" class="text-white"
+            >المراجعات</a
+          >
+          <a href="/" onclick="hideHeaderSideBar()" class="text-white"
+            >الأسئلة الشائعة</a
+          >
           <a
-        id="headerSideBarLogin"
-          href="/login"
-          class="w-full text-center bg-green-500 mt-auto  py-2 rounded text-white text-base font-bold transition hover:bg-green-600"
-          >تسجيل الدخول</a
-        >
+            id="headerSideBarLogin"
+            href="/login"
+            class="w-full text-center bg-green-500 mt-auto py-2 rounded text-white text-base font-bold transition hover:bg-green-600"
+            >تسجيل الدخول</a
+          >
         </div>
       </div>
     </header>
     <section
-      class=" relative pt-20 px-4 bg-gradient-to-bl from-black to-black/90 w-full h-screen flex flex-col md:flex-row-reverse"
+      class="relative pt-20 px-4 bg-gradient-to-bl from-black to-black/90 w-full h-screen flex flex-col md:flex-row-reverse"
     >
       <div
         class="z-10 flex-1 h-full w-full px-10 flex flex-col justify-center items-end gap-1"
@@ -111,7 +127,9 @@
           >تسجيل الدخول</a
         >
       </div>
-      <div class="absolute bottom-0 left-0 w-full h-full flex-1 flex justify-center items-end z-0">
+      <div
+        class="absolute bottom-0 left-0 w-full h-full flex-1 flex justify-center items-end z-0"
+      >
         <img
           src="/assets/hero.png"
           alt="Mokrane"
@@ -126,7 +144,9 @@
       id="about"
       class="px-10 md:px-36 bg-gradient-to-br from-black/90 to-black w-full h-screen flex flex-col justify-center items-center gap-1"
     >
-      <h1 class="text-white text-2xl md:text-4xl font-bold mb-3">ما فائدته ؟</h1>
+      <h1 class="text-white text-2xl md:text-4xl font-bold mb-3">
+        ما فائدته ؟
+      </h1>
       <p class="text-white/80 text-end text-base">
         هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي
         القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات في الصفحة
@@ -208,7 +228,9 @@
           </span>
         </div>
       </div>
-      <div class="px-10 flex-1 flex flex-col md:flex-row-reverse gap-10 md:gap-0">
+      <div
+        class="px-10 flex-1 flex flex-col md:flex-row-reverse gap-10 md:gap-0"
+      >
         <div class="flex-1 flex flex-col justify-start items-end">
           <h1 class="text-white font-bold text-2xl mb-5">الصفحات</h1>
           <nav class="flex flex-col items-end gap-3">
