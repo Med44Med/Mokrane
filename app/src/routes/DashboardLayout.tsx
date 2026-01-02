@@ -1,17 +1,16 @@
 import { Outlet } from "react-router";
 import Aside from "../Components/Aside";
-import Navbar from '../Components/Navbar';
+import Navbar from "../Components/Navbar";
 
 const DashboardLayout = () => {
   return (
-    <main
-      dir="rtl"
-      className="flex h-dvh md:h-screen w-screen bg-background p-0 m-0"
-    >
+    <main dir="rtl" className="h-screen w-full bg-background p-0 m-0">
       <Aside />
       <Navbar />
-      <div className="flex-1 flex flex-col justify-start overflow-y-auto p-3 md:p-10 pb-24 md:pb-10 ">
-        <Outlet />
+      <div className="w-full h-full overflow-y-auto">
+        <div className="min-h-screen p-3 md:p-10 pb-24 md:pb-0 mr-0 md:mr-64 flex flex-col justify-start ">
+          <Outlet />
+        </div>
       </div>
     </main>
   );

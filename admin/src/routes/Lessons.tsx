@@ -10,7 +10,7 @@ import supabase from "../utilis/supabase";
 import Loading from "../components/Spinner";
 import LessonsFilter from "../components/LessonsFilter";
 import LessonIcon from "../components/LessonIcon";
-import Header from "../components/Header";
+import Header from "@/Components/Header";
 import type { LessonType } from "../types";
 import Button from "../components/Button";
 

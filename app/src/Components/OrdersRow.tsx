@@ -1,9 +1,9 @@
-import { useRef, useEffect, useState, Activity } from "react";
-import supabase from "../../utilis/supabase";
-import { Price } from "../../utilis/Price";
+import { useRef, useEffect, useState } from "react";
+import supabase from "../utilis/supabase";
+import { Price } from "../utilis/Price";
 import { FaImage } from "react-icons/fa";
-import Button from "./Button";
-import Popup from "./Popup";
+import Button from './UI/Button';
+import Popup from './UI/Popup';
 
 const OrdersRow = ({ data, index, proof, setProof }) => {
   const [showProof, setShowProof] = useState(false);

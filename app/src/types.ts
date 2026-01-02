@@ -22,6 +22,7 @@ type BrochureType = {
   description?: string;
   content: string;
   price: number;
+  sale: number;
   views: number;
   thumbnail: string;
   class: string;

@@ -1,4 +1,4 @@
-import React from "react";
+;
 import { useState, useEffect } from "react";
 import { MessageContext } from "./contexts.ts";
 import supabase from "../utilis/supabase";

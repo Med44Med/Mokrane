@@ -1,6 +1,6 @@
 import { useState, useEffect, useEffectEvent } from "react";
 import { Helmet } from "react-helmet";
-import Header from "../components/Header";
+import Header from "@/Components/Header";
 import { FaFilter } from "react-icons/fa";
 import { Day } from "../utilis/Day";
 import Popup from "../components/Popup";

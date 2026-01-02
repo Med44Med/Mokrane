@@ -6,7 +6,7 @@ const Button = ({
   onClick,
 }: {
   children: ReactNode;
-  className: string;
+  className?: string;
   onClick: (x?: unknown) => unknown;
 }) => {
   return (

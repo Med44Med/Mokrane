@@ -1,4 +1,4 @@
-import React from "react";
+;
 import { clsx } from "clsx";
 
 const CustomCursor = ({ pos, isHovered }) => {

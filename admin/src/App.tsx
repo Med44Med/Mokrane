@@ -1,21 +1,10 @@
-import { useEffect } from "react";
-import { createBrowserRouter } from "react-router";
-import { RouterProvider } from "react-router/dom";
+import { useEffect, Suspense } from "react";
 
 import AuthProvider from "./contexts/AuthContext";
 import MessagesProvider from "./contexts/MessagesContext";
 
-import DashboardLayout from "./routes/DashboardLayout";
-import Dashboard from "./routes/Dashboard";
-import Lessons from "./routes/Lessons";
-import AddLesson from "./routes/AddLesson";
-import Lesson from "./routes/Lesson";
-import EditLesson from "./routes/EditLesson";
-import Settings from "./routes/Settings";
-import Orders from "./routes/Orders";
-import Statistics from "./routes/Statistics";
-import Students from "./routes/Students";
-import Messages from "./routes/Messages";
+import Routes from "@/routes/Routes";
+import { SubHeading } from '@/Components/Typo';
 
 function App() {
   useEffect(() => {
@@ -37,60 +26,20 @@ function App() {
     }
   }, []);
 
-  const router = createBrowserRouter([
-    {
-      Component: DashboardLayout,
-      children: [
-        {
-          index: true,
-          Component: Dashboard,
-        },
-        {
-          path: "statistics",
-          Component: Statistics,
-        },
-        {
-          path: "lessons",
-          Component: Lessons,
-        },
-        {
-          path: "lessons/:title",
-          Component: Lesson,
-        },
-        {
-          path: "lessons/add",
-          Component: AddLesson,
-        },
-        {
-          path: "lessons/edit",
-          Component: EditLesson,
-        },
-        {
-          path: "orders",
-          Component: Orders,
-        },
-        {
-          path: "messages",
-          Component: Messages,
-        },
-        {
-          path: "students",
-          Component: Students,
-        },
-        {
-          path: "settings",
-          Component: Settings,
-        },
-      ],
-    },
-  ]);
-
   return (
-    <AuthProvider>
-      <MessagesProvider>
-        <RouterProvider router={router} />
-      </MessagesProvider>
-    </AuthProvider>
+    <Suspense
+      fallback={
+        <div className="bg-background w-full h-dvh flex justify-center items-center">
+          <SubHeading className="text-primary!">انتظر من فضلك...</SubHeading>
+        </div>
+      }
+    >
+      <AuthProvider>
+        <MessagesProvider>
+          <Routes />
+        </MessagesProvider>
+      </AuthProvider>
+    </Suspense>
   );
 }
 

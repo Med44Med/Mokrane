@@ -1,4 +1,4 @@
-import React from "react";
+;
 import { FaEdit } from "react-icons/fa";
 import { Day } from "../../utilis/Day";
 import supabase from "../../utilis/supabase";

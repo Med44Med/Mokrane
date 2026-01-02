@@ -9,6 +9,7 @@ export type CartContextType = {
 export type AuthContextType = {
   user: UserType | null;
   logout: () => Promise<void>;
+  updateProfileAvatar: (avatarUrl: string) => void;
 };
 
 const CartContext = createContext<CartContextType | null>(null);

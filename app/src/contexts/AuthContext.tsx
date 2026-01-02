@@ -62,8 +62,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     window.location.href = "https://www.mokrane.xyz";
   };
 
+  const updateProfileAvatar = (avatarUrl: string) => {
+    if (user) {
+      setUser(perv=>({...perv, avatar: avatarUrl}));
+    }}
+
   return (
-    <AuthContext.Provider value={{ user, logout }}>
+    <AuthContext.Provider value={{ user, logout, updateProfileAvatar }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet";
 import { useSearchParams } from "react-router";
 
-import Header from "../components/Header";
+import Header from "@/Components/Header";
 import ChatList from "../components/messages/ChatList";
 import ChatLayout from "../components/messages/ChatLayout";
 

@@ -7,7 +7,7 @@ import type { CartContextType, AuthContextType } from "../contexts/contexts";
 import type { OrderType, BrochureType } from "../types.ts";
 import { Price } from "../utilis/Price";
 import Button from "../Components/UI/Button";
-import Header from "../Components/UI/Header";
+import Header from "@/Components/Header";
 import generateOrderNo from "../utilis/generateNo";
 import supabase from "../utilis/supabase";
 
@@ -36,7 +36,7 @@ const Cart = () => {
       setOrder({
         orderNo: generateOrderNo(user.id),
         user: user.id,
-        items: cart.map((e) => e.id),
+        items: cart.map((e) => ({ id: e.id, title: e.title , price: e.price ,sale:e.sale})),
         coupon: null,
         total: cart.reduce((acc: number, item: BrochureType) => {
           return acc + item.price;

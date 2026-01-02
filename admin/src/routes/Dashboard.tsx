@@ -1,12 +1,22 @@
-import React from 'react'
+import Header from "@/Components/Header";
+import DashboardMain from "./dashboard/DashboardMain";
+import { Surface } from '@/components/ui/Surface';
 
 const Dashboard = () => {
   return (
     <>
-    <div className='w-full h-screen bg-green-500'></div>
-    <div className='w-full h-screen bg-blue-500'></div>
+      <Header title="لوحة التحكم" />
+      <div className="w-full flex-1 grid grid-cols-4 grid-rows-3 gap-5">
+        <DashboardMain />
+        <Surface></Surface>
+        <Surface></Surface>
+        <Surface></Surface>
+        <Surface></Surface>
+        <Surface></Surface>
+        <Surface></Surface>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

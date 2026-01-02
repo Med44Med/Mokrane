@@ -1,4 +1,4 @@
-import React from "react";
+;
 import GenerateLesson from "../GenerateLesson";
 import { useState, useEffect, useEffectEvent } from "react";
 import UpdateContents from "./UpdateContents";

@@ -1,93 +1,28 @@
-import { createBrowserRouter } from "react-router";
-import { RouterProvider } from "react-router/dom";
-
-import DashboardLayout from "./routes/DashboardLayout";
-import Dashboard from "./routes/Dashboard";
-import ClassRooms from "./routes/ClassRooms";
-import Class from "./routes/Class";
-// import Messages from "./routes/Messages";
-import Settings from "./routes/Settings";
-import Lessons from "./routes/Lessons";
-import NotFound from "./routes/notFound";
-import Store from "./routes/Store";
-import Cart from "./routes/Cart";
-
-import "./App.css";
 import CartProvider from "./contexts/CartContext";
 import AuthProvider from "./contexts/AuthContext";
-import Brochure from "./routes/Brochure";
-import Lesson from './routes/Lesson';
-import Orders from './routes/Orders';
+import Routes from "./routes/Routes";
+import "./App.css";
+import { Suspense } from "react";
+import { SubHeading } from "./Components/Typo";
+import Analytics from "./utilis/Analytics";
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      Component: DashboardLayout,
-      children: [
-        {
-          index: true,
-          Component: Dashboard,
-        },
-        {
-          path: "classrooms",
-          Component: ClassRooms,
-        },
-        {
-          path: "classrooms/:id",
-          loader: async ({ params }) => {
-            return { id: params.id, title: "Sample Class Title" };
-          },
-          Component: Class,
-        },
-        {
-          path: "lessons",
-          Component: Lessons,
-        },
-        {
-          path: "lessons/:title",
-          loader: async ({ params }) => {
-            return { title: params.title};
-          },
-          Component: Lesson,
-        },
-        // {
-        //   path: "messages",
-        //   Component: Messages,
-        // },
-        {
-          path: "store",
-          Component: Store,
-        },
-        {
-          path: "store/:title",
-          Component: Brochure,
-        },
-        {
-          path: "store/cart",
-          Component: Cart,
-        },
-        {
-          path: "orders",
-          Component: Orders,
-        },
-        {
-          path: "settings",
-          Component: Settings,
-        },
-      ],
-    },
-    {
-      path: "*",
-      element: <NotFound />,
-    },
-  ]);
-
   return (
-    <AuthProvider>
-      <CartProvider>
-        <RouterProvider router={router} />
-      </CartProvider>
-    </AuthProvider>
+    <Suspense
+      fallback={
+        <div className="bg-background w-full h-dvh flex justify-center items-center">
+          <SubHeading className="text-primary!">انتظر من فضلك...</SubHeading>
+        </div>
+      }
+    >
+      <AuthProvider>
+        <CartProvider>
+          <Analytics>
+            <Routes />
+          </Analytics>
+        </CartProvider>
+      </AuthProvider>
+    </Suspense>
   );
 }
 

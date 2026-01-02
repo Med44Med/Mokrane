@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router";
-import Header from "../Components/UI/Header";
+import Header from "@/Components/Header";
 import { useState, useEffect } from "react";
 import { FaSpinner } from "react-icons/fa";
 import supabase from "../utilis/supabase";
